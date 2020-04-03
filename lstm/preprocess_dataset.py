@@ -48,8 +48,8 @@ test_questions = []
 test_answers = []
 
 # preprocess question and answer text
-word2idx = {"[NULL]": 0}
-idx_counter = 1
+word2idx = {"[NULL]": 0, "[UNK]": 1}
+idx_counter = 2
 longest_sentence = 0
 print("Preprocessing training text...")
 for index, row in train_data.iterrows(): # iterate over training data

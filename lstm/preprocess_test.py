@@ -9,8 +9,6 @@ import numpy as np
 TEST_PATH = os.path.join("../input/google-quest-challenge/test.csv")
 USEFUL_COLUMN_NAMES = ["question_body", "answer"]
 
-print(os.listdir("../"))
-
 def preprocess_text(text):
     # TODO: maybe convert all text to lowercase? see if that affects accuracy?
     text = text.replace(".", " [EOS] ")
@@ -47,11 +45,13 @@ for index, row in test_data.iterrows(): # iterate over testing data
     answer_numbered = []
 
     # convert ["This", "is", "my", "question", "[EOQ]"] to [23, 486, 3, 54, 128]
-    for word in question_tokenized:
-        question_numbered.append(word2idx[word] if word in word2idx else len(word2idx))
-    for word in answer_tokenized:
-        answer_numbered.append(word2idx[word] if word in word2idx else len(word2idx))
-    question_numbered += [0] * (8172 - len(question_numbered))
+    for index, word in enumerate(question_tokenized):
+        if index < 8172:
+            question_numbered.append(word2idx[word] if word in word2idx else word2idx["[UNK]"])
+    for index, word in enumerate(answer_tokenized):
+        if index < 8172:
+            answer_numbered.append(word2idx[word] if word in word2idx else word2idx["[UNK]"])
+    question_numbered += [0] * (8172 - len(question_numbered)) # choose 8172 as the max length of a sentence so we can pad the rest of the sentence with delimiters
     answer_numbered += [0] * (8172 - len(answer_numbered))
 
     test_questions.append(question_numbered)
