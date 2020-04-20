@@ -29,6 +29,9 @@ def initialize_char_tfidf_extractor():
 
 if __name__ == "__main__":
 
+    '''
+    Using context for now, since we won't have enough features if we don't
+    
     if len(sys.argv) != 2:
         print("Usage: python read_and_label_squad.py [use_context]")
         sys.exit(0)
@@ -40,6 +43,8 @@ if __name__ == "__main__":
         use_context = True
     else:
         use_context = False
+    '''
+    use_context = True
 
     original_data = pd.read_csv('../train.csv').fillna(' ')
 
