@@ -116,8 +116,8 @@ test_features_a = test_features_a.tocsr()
 submission = pd.DataFrame.from_dict({'qa_id': test_data['qa_id']})
 spearman_scores_train = []
 
-question_models = []
-answer_models = []
+question_models = {}
+answer_models = {}
 
 for question_column_tag in question_column_tags:
     print(question_column_tag)
@@ -130,7 +130,7 @@ for question_column_tag in question_column_tags:
     print("Train:")
     print(spearman_score_train)
     submission[question_column_tag] = model.predict_proba(test_features_q)[:, 1]
-    question_models.append(model)
+    question_models[question_column_tag] = model
 
 for answer_column_tag in answer_column_tags:
     print(answer_column_tag)
@@ -143,7 +143,7 @@ for answer_column_tag in answer_column_tags:
     print("Train:")
     print(spearman_score_train)
     submission[answer_column_tag] = model.predict_proba(test_features_a)[:, 1]
-    answer_models.append(model)
+    answer_models[answer_column_tag] = model
 
 print('Training score:')
 print(np.mean(spearman_scores_train))
