@@ -12,7 +12,7 @@ def initialize_word_tfidf_extractor():
         analyzer='word',
         stop_words='english',
         ngram_range=(1, 2),
-        max_features=22000,
+        max_features=20000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -22,7 +22,7 @@ def initialize_char_tfidf_extractor():
     return TfidfVectorizer(
         analyzer='char',
         ngram_range=(1, 4),
-        max_features=50000,
+        max_features=40000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -107,11 +107,19 @@ test_features_q = hstack([test_question_features_word,
 test_features_a = hstack([test_answer_features_word,
                           test_answer_features_char])
 
+if not os.path.isdir('saved_models'):
+    os.mkdir('saved_models')
+
 train_features_q = train_features_q.tocsr()
 train_features_a = train_features_a.tocsr()
 
 test_features_q = test_features_q.tocsr()
 test_features_a = test_features_a.tocsr()
+
+pickle.dump(train_features_q, open('./saved_models/log_reg_train_features_q.sav', 'wb'))
+pickle.dump(train_features_a, open('./saved_models/log_reg_train_features_a.sav', 'wb'))
+pickle.dump(test_features_q, open('./saved_models/log_reg_test_features_q.sav', 'wb'))
+pickle.dump(test_features_a, open('./saved_models/log_reg_test_features_a.sav', 'wb'))
 
 submission = pd.DataFrame.from_dict({'qa_id': test_data['qa_id']})
 spearman_scores_train = []
@@ -147,9 +155,6 @@ for answer_column_tag in answer_column_tags:
 
 print('Training score:')
 print(np.mean(spearman_scores_train))
-
-if not os.path.isdir('saved_models'):
-    os.mkdir('saved_models')
 
 # Save question model
 pickle.dump(question_models, open('./saved_models/log_reg_question_models.sav', 'wb'))

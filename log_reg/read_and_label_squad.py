@@ -1,4 +1,4 @@
-import sys
+import os
 import pickle
 
 import pandas as pd
@@ -10,8 +10,8 @@ def initialize_word_tfidf_extractor():
     return TfidfVectorizer(
         analyzer='word',
         stop_words='english',
-        ngram_range=(1, 3),
-        max_features=25000,
+        ngram_range=(1, 2),
+        max_features=20000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -20,8 +20,8 @@ def initialize_word_tfidf_extractor():
 def initialize_char_tfidf_extractor():
     return TfidfVectorizer(
         analyzer='char',
-        ngram_range=(1, 5),
-        max_features=60000,
+        ngram_range=(1, 4),
+        max_features=40000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -45,6 +45,9 @@ if __name__ == "__main__":
         use_context = False
     '''
     use_context = True
+
+    if not os.path.isdir('squad_labelled'):
+        os.mkdir('squad_labelled')
 
     original_data = pd.read_csv('../train.csv').fillna(' ')
 
@@ -136,9 +139,5 @@ if __name__ == "__main__":
         train_data[answer_column_tag] = answer_models[answer_column_tag].predict_proba(train_features_a)[:, 1]
         dev_data[answer_column_tag] = answer_models[answer_column_tag].predict_proba(dev_features_a)[:, 1]
 
-    if use_context:
-        train_data.to_csv('../squad_dataset/train-v2.0_labeled_log_reg_context.csv', index=False)
-        dev_data.to_csv('../squad_dataset/dev-v2.0_labeled_log_reg_context.csv', index=False)
-    else:
-        train_data.to_csv('../squad_dataset/train-v2.0_labeled_log_reg.csv', index=False)
-        dev_data.to_csv('../squad_dataset/dev-v2.0_labeled_log_reg.csv', index=False)
+    train_data.to_csv('./squad_labelled/train-v2.0_labeled_log_reg.csv', index=False)
+    dev_data.to_csv('./squad_labelled/dev-v2.0_labeled_log_reg.csv', index=False)
