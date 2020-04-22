@@ -11,8 +11,8 @@ def initialize_word_tfidf_extractor():
     return TfidfVectorizer(
         analyzer='word',
         stop_words='english',
-        ngram_range=(1, 3),
-        max_features=25000,
+        ngram_range=(1, 2),
+        max_features=22000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -21,8 +21,8 @@ def initialize_word_tfidf_extractor():
 def initialize_char_tfidf_extractor():
     return TfidfVectorizer(
         analyzer='char',
-        ngram_range=(1, 5),
-        max_features=60000,
+        ngram_range=(1, 4),
+        max_features=50000,
         sublinear_tf=True,
         strip_accents='unicode'
     )
@@ -122,7 +122,7 @@ answer_models = {}
 for question_column_tag in question_column_tags:
     print(question_column_tag)
     Y = train_data[question_column_tag + '_dup']
-    model = LogisticRegression(C=0.4)
+    model = LogisticRegression(C=0.3)
     model.fit(train_features_q, Y)
     pred_y = model.predict_proba(train_features_q)[:, 1]
     spearman_score_train = find_spearman_score(train_data[question_column_tag], pred_y)
@@ -135,7 +135,7 @@ for question_column_tag in question_column_tags:
 for answer_column_tag in answer_column_tags:
     print(answer_column_tag)
     Y = train_data[answer_column_tag + '_dup']
-    model = LogisticRegression(C=0.4)
+    model = LogisticRegression(C=0.3)
     model.fit(train_features_a, Y)
     pred_y = model.predict_proba(train_features_a)[:, 1]
     spearman_score_train = find_spearman_score(train_data[answer_column_tag], pred_y)
