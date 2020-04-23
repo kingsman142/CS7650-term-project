@@ -12,7 +12,7 @@ Steps to obtain the training accuracy (test accuracy is displayed on Kaggle) usi
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
-2. We then run logistic regression to generate the features, train and save the model - `python logistic_regression.py`
+2. We then run logistic regression to generate the features, train and save the model - `python logistic_regression.py` (Will take around 5 minutes)
 
 3. Above command will display the Spearman score for each label and also the overall average Spearman score.
 
@@ -26,13 +26,13 @@ Steps to show error analysis
 
 Steps to generate labeled CSV using saved logistic regression models
 
-1. First we parse squad json into csv, run the command from the parent directory- `python parse_squad_to_csv.py`. This will generate train-v2.0.csv and dev-v2.0.csv in the squad_dataset folder.
+1. First we parse squad json into csv for a more readable format, run the command from the parent directory- `python parse_squad_to_csv.py`. This will generate train-v1.1.csv and dev-v1.1.csv in the squad_dataset folder.
 
 2. cd into 'log_reg' directory - `cd log_reg`
 
 3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad.
 
-3. The labeled csv will be generated in the `squad_labelled` folder, dev-v2.0_labeled_log_reg.csv and train-v2.0_labeled_log_reg.csv.
+3. The labeled csv will be generated in the `squad_labelled` folder, dev-v1.1_labeled.csv and train-v1.1_labeled.csv.
 
 Steps to generate plots that analyze the labelled squad data
 
