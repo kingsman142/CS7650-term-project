@@ -9,10 +9,10 @@ from model import QUESTModel
 
 BATCH_SIZE = 1
 LEARNING_RATE = 0.01
-NUM_EPOCHS = 10
-HIDDEN_SIZE = 100
+NUM_EPOCHS = 15
+HIDDEN_SIZE = 100 # 50 works great with 1 sample
 LSTM_LAYERS = 1
-EMBEDDING_DIM = 50
+EMBEDDING_DIM = 100 # 100 works great with 1 sample
 WORD2IDX_PATH = os.path.join("word2idx.json")
 
 QUESTION_OUTPUT_SIZE = 21 # 21 features/attributes corresponding to the questions
@@ -38,8 +38,8 @@ test_loader = torch.utils.data.DataLoader(test_data, batch_size = 1)
 
 # init training modules, such as the model, Adam optimizer and loss function
 model = QUESTModel(vocab_size = vocab_size, embedding_dim = EMBEDDING_DIM, hidden_size = HIDDEN_SIZE, lstm_layers = LSTM_LAYERS, num_question_output = QUESTION_OUTPUT_SIZE, num_answer_output = ANSWER_OUTPUT_SIZE).to(DEVICE)
-optimizer = optim.Adam(model.parameters(), lr = LEARNING_RATE)
-loss_function = nn.L1Loss(reduction = 'sum').to(DEVICE)
+optimizer = optim.SGD(model.parameters(), lr = LEARNING_RATE)
+loss_function = nn.MSELoss(reduction = 'sum').to(DEVICE)
 
 # create a 'models' directory to save models
 if not os.path.exists("models"):
@@ -70,9 +70,7 @@ for epoch in range(NUM_EPOCHS):
 
         if batch_id % 500 == 0:
             print("TRAIN -- EPOCH {}/{} -- BATCH {}/{} -- Avg. Loss: {}".format(epoch+1, NUM_EPOCHS, batch_id+1, len(train_loader), loss.item() / BATCH_SIZE))
-            print(pred_scores)
-        #print(pred_scores, true_scores)
-    print("Average train loss: {}".format(train_loss / len(train_loader)))
+    print("Average train loss: {}".format(train_loss / (len(train_loader) * BATCH_SIZE)))
 
     # test model on validation set
     avg_val_loss = 0.0
@@ -95,6 +93,7 @@ for epoch in range(NUM_EPOCHS):
 
         # save new best model
         best_model_loss = avg_val_loss
-        best_model_epoch = epoch
+        best_model_epoch = epoch+1
         best_model_path = os.path.join("models", MODEL_SAVE_NAME.format(best_model_epoch, BATCH_SIZE, LEARNING_RATE, HIDDEN_SIZE, LSTM_LAYERS, best_model_loss))
         torch.save(model.state_dict(), best_model_path)
+print("Best model found at epoch {}...".format(best_model_epoch))

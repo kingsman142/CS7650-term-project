@@ -22,7 +22,6 @@ class QUESTModel(nn.Module):
 
         # NOTE: pytorch LSTM units take input in the form of [window_length, batch_size, num_features], which will end up being [WINDOW_SIZE, batch_size, 1] for our dataset
         # reshape question and answer sizes
-        #print(question.shape, answer.shape, batch_size)
         question = question.permute(1, 0)
         answer = answer.permute(1, 0)
 
@@ -32,12 +31,10 @@ class QUESTModel(nn.Module):
                               torch.zeros(1, batch_size, self.hidden_size).to(DEVICE))
 
         question_embed = self.question_embeddings(question)
-        #print(question_embed.shape)
         question_lstm_out, _ = self.question_lstm(question_embed, question_hidden_cell)
         question_pred_scores = self.question_linear(question_lstm_out[-1])
 
         answer_embed = self.answer_embeddings(answer)
-        #print(answer_embed.shape)
         answer_lstm_out, _ = self.answer_lstm(answer_embed, answer_hidden_cell)
         answer_pred_scores = self.answer_linear(answer_lstm_out[-1])
 
