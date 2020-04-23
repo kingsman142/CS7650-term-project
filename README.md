@@ -56,7 +56,7 @@ Before running the below programs, please download the SQuAD1.1 dataset from htt
 
 3. Run `squad_analysis.py` to generate SQuAD dataset statistics.
 
-## Steps to show error analysis
+## Steps to generate error analysis plots (Plots already present in `plots_error_analysis` folder, run steps if not present)
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
@@ -70,7 +70,7 @@ Before running the below programs, please download the SQuAD1.1 dataset from htt
 
 2. cd into 'log_reg' directory - `cd log_reg`
 
-3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad.
+3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad. This will take ~5 minutes.
 
 3. The labeled csv will be generated in the `squad_labelled` folder, dev-v1.1_labeled.csv and train-v1.1_labeled.csv.
 
