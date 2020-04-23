@@ -1,7 +1,7 @@
 import os
-import numpy as np
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 
 data = pd.read_csv("./squad_labelled/train-v1.1_labeled.csv")
 

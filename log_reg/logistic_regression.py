@@ -162,4 +162,4 @@ pickle.dump(question_models, open('./saved_models/log_reg_question_models.sav', 
 pickle.dump(answer_models, open('./saved_models/log_reg_answer_models.sav', 'wb'))
 
 # Submission for kaggle
-#submission.to_csv('submission.csv', index=False)
+submission.to_csv('submission.csv', index=False)

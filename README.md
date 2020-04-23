@@ -20,9 +20,11 @@ Steps to obtain the training accuracy (test accuracy is displayed on Kaggle) usi
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
-2. We then run logistic regression to generate the features, train and save the model - `python logistic_regression.py` (Will take around 5 minutes)
+2. Run `pip3 install -r requirements.txt`
 
-3. Above command will display the Spearman score for each label and also the overall average Spearman score.
+3. We then run logistic regression to generate the features, train and save the model - `python logistic_regression.py` (Will take around 5 minutes)
+
+4. Above command will display the Spearman score for each label and also the overall average Spearman score, and also generate a generate a test submission file `submission.csv' for Kaggle
 
 ## Naive Bayes (QUEST labeling model)
 
@@ -60,17 +62,17 @@ Before running the below programs, please download the SQuAD1.1 dataset from htt
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
-2. Run logistic regression if not done above - `python logistic_regression.py`
+2. Run logistic regression if not done above - `python3 logistic_regression.py`
 
-3. Now, run the command - `python error_analysis.py` to generate the error analysis plots in the `plots_error_analysis` folder.
+3. Now, run the command - `python3 error_analysis.py` to generate the error analysis plots in the `plots_error_analysis` folder.
 
 ## Steps to generate transformed SQuAD using saved logistic regression models
 
-1. First we parse squad json into csv for a more readable format, run the command from the parent directory- `python parse_squad_to_csv.py`. This will generate train-v1.1.csv and dev-v1.1.csv in the squad_dataset folder.
+1. First we parse squad json into csv for a more readable format, run the command from the parent directory- `python3 parse_squad_to_csv.py`. This will generate train-v1.1.csv and dev-v1.1.csv in the squad_dataset folder.
 
 2. cd into 'log_reg' directory - `cd log_reg`
 
-3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad. This will take ~5 minutes.
+3. Run the command - `python3 read_and_label_squad.py`. This will use the saved logistic regression models to label squad. This will take ~5 minutes.
 
 3. The labeled csv will be generated in the `squad_labelled` folder, dev-v1.1_labeled.csv and train-v1.1_labeled.csv.
 
@@ -78,6 +80,6 @@ Before running the below programs, please download the SQuAD1.1 dataset from htt
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
-2. Run the command - `python analysis_labeled.py`
+2. Run the command - `python3 analysis_labeled.py`
 
 3. The plots will be generated in the `plots_labeled` folder.
