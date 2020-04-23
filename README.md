@@ -16,7 +16,7 @@ Steps to obtain the training accuracy (test accuracy is displayed on Kaggle) usi
 
 3. Above command will display the Spearman score for each label and also the overall average Spearman score.
 
-Steps to show error analysis
+Steps to generate error analysis plots (Plots already present in `plots_error_analysis` folder, run steps if not present)
 
 1. cd into 'log_reg' directory - `cd log_reg`
 
@@ -24,13 +24,13 @@ Steps to show error analysis
 
 3. Now, run the command - `python error_analysis.py` to generate the error analysis plots in the `plots_error_analysis` folder.
 
-Steps to generate labeled CSV using saved logistic regression models
+Steps to generate labeled SQuAD CSV using saved logistic regression models
 
 1. First we parse squad json into csv for a more readable format, run the command from the parent directory- `python parse_squad_to_csv.py`. This will generate train-v1.1.csv and dev-v1.1.csv in the squad_dataset folder.
 
 2. cd into 'log_reg' directory - `cd log_reg`
 
-3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad.
+3. Run the command - `python read_and_label_squad.py`. This will use the saved logistic regression models to label squad. This will take ~5 minutes.
 
 3. The labeled csv will be generated in the `squad_labelled` folder, dev-v1.1_labeled.csv and train-v1.1_labeled.csv.
 

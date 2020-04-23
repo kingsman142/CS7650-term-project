@@ -23,19 +23,11 @@ for column_tag in column_tags:
 question_column_tags = np.array(column_tags[:21])
 answer_column_tags = np.array(column_tags[21:])
 
-done = True
 column_erros = []
 for question_column_tag in question_column_tags:
     pred_y = question_models[question_column_tag].predict_proba(train_features_q)[:, 1]
     diff = np.absolute(train_data[question_column_tag] - pred_y)
-    greater = np.where(diff >= 0.5)[0]
-    if done and question_column_tag == 'question_type_choice':
-        print(train_data.iloc[greater[60]]['question_title'])
-        # print(train_data.iloc[0]['question_body'])
-        print("Ans")
-        print(train_data.iloc[greater[60]]['answer'])
-        done = False
-    column_erros.append(len(greater))
+    column_erros.append(len(np.where(diff >= 0.5)[0]))
 column_erros = np.array(column_erros)
 
 top_5_indices = np.array(column_erros).argsort()[-5:][::-1]
