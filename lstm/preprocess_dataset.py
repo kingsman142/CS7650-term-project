@@ -10,9 +10,9 @@ TRAIN_PATH = os.path.join("train.csv")
 TEST_PATH = os.path.join("test.csv")
 USEFUL_COLUMN_NAMES = ["question_body", "answer"]
 VALIDATION_SIZE = 500
+MAX_SENTENCE_LENGTH = 500 # 8172
 
 def preprocess_text(text):
-    # TODO: maybe convert all text to lowercase? see if that affects accuracy?
     text = text.replace(".", " [EOS] ")
     text = text.replace("?", " [EOQ] ")
     text = text.replace("(", "")
@@ -66,18 +66,20 @@ for index, row in train_data.iterrows(): # iterate over training data
     question_numbered = []
     answer_numbered = []
 
-    for word in question_tokenized:
+    for index, word in enumerate(question_tokenized):
         if word not in word2idx:
             word2idx[word] = idx_counter
             idx_counter += 1
-        question_numbered.append(word2idx[word])
-    for word in answer_tokenized:
+        if index < MAX_SENTENCE_LENGTH:
+            question_numbered.append(word2idx[word])
+    for index, word in enumerate(answer_tokenized):
         if word not in word2idx:
             word2idx[word] = idx_counter
             idx_counter += 1
-        answer_numbered.append(word2idx[word])
-    question_numbered += [0] * (8172 - len(question_numbered))
-    answer_numbered += [0] * (8172 - len(answer_numbered))
+        if index < MAX_SENTENCE_LENGTH:
+            answer_numbered.append(word2idx[word])
+    question_numbered += [0] * (MAX_SENTENCE_LENGTH - len(question_numbered))
+    answer_numbered += [0] * (MAX_SENTENCE_LENGTH - len(answer_numbered))
 
     train_questions.append(question_numbered)
     train_answers.append(answer_numbered)
@@ -99,14 +101,16 @@ for index, row in test_data.iterrows(): # iterate over testing data
         if word not in word2idx:
             word2idx[word] = idx_counter
             idx_counter += 1
-        question_numbered.append(word2idx[word])
+        if index < MAX_SENTENCE_LENGTH:
+            question_numbered.append(word2idx[word])
     for word in answer_tokenized:
         if word not in word2idx:
             word2idx[word] = idx_counter
             idx_counter += 1
-        answer_numbered.append(word2idx[word])
-    question_numbered += [0] * (8172 - len(question_numbered))
-    answer_numbered += [0] * (8172 - len(answer_numbered))
+        if index < MAX_SENTENCE_LENGTH:
+            answer_numbered.append(word2idx[word])
+    question_numbered += [0] * (MAX_SENTENCE_LENGTH - len(question_numbered))
+    answer_numbered += [0] * (MAX_SENTENCE_LENGTH - len(answer_numbered))
 
     test_questions.append(question_numbered)
     test_answers.append(answer_numbered)
