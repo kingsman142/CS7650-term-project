@@ -51,8 +51,8 @@ if __name__ == "__main__":
 
     original_data = pd.read_csv('../train.csv').fillna(' ')
 
-    train_data = pd.read_csv('../squad_dataset/train-v2.0.csv').fillna(' ')
-    dev_data = pd.read_csv('../squad_dataset/dev-v2.0.csv').fillna(' ')
+    train_data = pd.read_csv('../squad_dataset/train-v1.1.csv').fillna(' ')
+    dev_data = pd.read_csv('../squad_dataset/dev-v1.1.csv').fillna(' ')
 
     train_question = train_data['question']
     train_answer = train_data['answer']
@@ -139,5 +139,5 @@ if __name__ == "__main__":
         train_data[answer_column_tag] = answer_models[answer_column_tag].predict_proba(train_features_a)[:, 1]
         dev_data[answer_column_tag] = answer_models[answer_column_tag].predict_proba(dev_features_a)[:, 1]
 
-    train_data.to_csv('./squad_labelled/train-v2.0_labeled_log_reg.csv', index=False)
-    dev_data.to_csv('./squad_labelled/dev-v2.0_labeled_log_reg.csv', index=False)
+    train_data.to_csv('./squad_labelled/train-v1.1_labeled.csv', index=False)
+    dev_data.to_csv('./squad_labelled/dev-v1.1_labeled.csv', index=False)

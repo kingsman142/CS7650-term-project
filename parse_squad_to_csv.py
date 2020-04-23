@@ -11,8 +11,6 @@ def parse_to_dict_list(data):
             context = para['context']
             for qas in para['qas']:
                 answers = set()
-                if qas['is_impossible']:
-                    answers.add('')
                 question = qas['question']
                 for ans in qas['answers']:
                     answers.add(ans['text'])
@@ -27,7 +25,7 @@ def parse_to_dict_list(data):
 if __name__ == "__main__":
 
     # Parse squad json to csv
-    with open('./squad_dataset/dev-v2.0.json') as f:
+    with open('./squad_dataset/dev-v1.1.json') as f:
         dev_data = json.load(f)
     dev_data = dev_data['data']
 
@@ -38,7 +36,7 @@ if __name__ == "__main__":
     dev_data_dict_list = parse_to_dict_list(dev_data)
 
     try:
-        with open('./squad_dataset/dev-v2.0.csv', 'w+', encoding="utf-8") as csv_file:
+        with open('./squad_dataset/dev-v1.1.csv', 'w+', encoding="utf-8") as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=dev_data_dict_list[0].keys())
             writer.writeheader()
             for entry in dev_data_dict_list:
@@ -46,14 +44,14 @@ if __name__ == "__main__":
     except IOError as e:
         print(e)
 
-    with open('./squad_dataset/train-v2.0.json') as f:
+    with open('./squad_dataset/train-v1.1.json') as f:
         train_data = json.load(f)
     train_data = train_data['data']
 
     train_data_dict_list = parse_to_dict_list(train_data)
 
     try:
-        with open('./squad_dataset/train-v2.0.csv', 'w+', encoding="utf-8") as csv_file:
+        with open('./squad_dataset/train-v1.1.csv', 'w+', encoding="utf-8") as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=train_data_dict_list[0].keys())
             writer.writeheader()
             for entry in train_data_dict_list:
