@@ -28,6 +28,12 @@ Steps to obtain the training accuracy (test accuracy is displayed on Kaggle) usi
 
 ## Naive Bayes (QUEST labeling model)
 
+The naive Bayes model requires only the `numpy`, `pandas`, `re`, and `collections` libraries to run.
+
+1. Run `cd naive-bayes` to navigate to the naive Bayes folder.
+
+2. Run `python3 naive-bayes.py` to execute the naive Bayes model. This will train the model on the `train.csv` dataset and save a file `submission.csv` containing the predicted labels for the `test.csv` dataset.
+
 ## Bi-directional Attention Flow (BiDAF) (QA baseline model)
 
 The initial code repository is located at https://github.com/ElizaLo/Question-Answering-based-on-SQuAD .
